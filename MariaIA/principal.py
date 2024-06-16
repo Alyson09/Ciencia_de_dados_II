@@ -98,17 +98,27 @@ def avaliar_fitness(individuo, ambiente):
 def iniciar_individuos(populacao):
     return [Individuo() for _ in range(populacao)]
 
-def selecao(individuos):
-    #Implementar seleção por torneio
-   
-    
+def selecao(individuos, k=3):
+    torneio = random.sample(individuos, k)
+    torneio.sort(key=lambda x: x.fitness, reverse=True)
+    return torneio[0]
+
 def cruzamento(pai1, pai2):
-    # : Implementar cruzamento
-    
+    ponto_de_corte = random.randint(1, len(pai1.cromossomo) - 1)
+    filho1_cromossomo = pai1.cromossomo[:ponto_de_corte] + pai2.cromossomo[ponto_de_corte:]
+    filho2_cromossomo = pai2.cromossomo[:ponto_de_corte] + pai1.cromossomo[ponto_de_corte:]
+    filho1 = Individuo()
+    filho2 = Individuo()
+    filho1.cromossomo = filho1_cromossomo
+    filho2.cromossomo = filho2_cromossomo
+    return filho1, filho2
+
 
 def mutacao(individuo, taxa_mutacao=0.1):
-    # Implementar mutação
-    
+    for i in range(len(individuo.cromossomo)):
+        if random.random() < taxa_mutacao:
+            individuo.cromossomo[i] = random.random()
+
 
 def imprimir_acoes_individuo(individuo):
     nomes_acoes = ["esquerda", "direita", "A"]
